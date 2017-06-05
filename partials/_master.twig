@@ -1,0 +1,75 @@
+{% set main_width = theme.layout.main_width|default(8) %}
+{% set aside_width = theme.layout.aside_width|default(4) %}
+<!doctype html>
+<html class="no-js" lang="{{ htmllang() }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {# make sure we always display a proper title: The record's title if there is one, appended with the
+           sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
+        <title>
+            {%- if record.title is defined %}{{ record.title|striptags }} | {% endif -%}
+                {{ app.config.get('general/sitename') -}}
+            {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif -%}
+        </title>
+        <link rel="stylesheet" href="{{ paths.theme }}vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ paths.theme }}vendor/components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ paths.theme }}vendor/drmonty/ekko-lightbox/css/ekko-lightbox.min.css">
+        <link rel="stylesheet" href="{{ paths.theme }}css/theme.css">
+        <link rel="icon" href="/theme/pimux/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/theme/pimux/images/pimux32.png" sizes="32x32" />
+        <link rel="icon" href="/theme/pimux/images/pimux192.png" sizes="192x192" />
+        <link rel="apple-touch-icon-precomposed" href="/theme/pimux/images/pimux180.png" />
+        <meta name="msapplication-TileImage" content="/theme/pimux/images/pimux270.png" />
+        {% block headincludes %}
+        {% endblock headincludes %}
+    </head>
+    <body>
+
+        {% block body %}
+
+            {% if theme.layout.variant != 'wide' %}
+                <div class="row">
+            {% endif %}
+
+            {{ include('partials/_topbar.twig') }}
+            {{ include('partials/_header.twig') }}
+
+            {% if theme.layout.variant != 'wide' %}
+                </div>
+            {% endif %}
+
+            <section id="content">
+                <div class="container">
+                    <div class="row">
+                        {% if theme.layout.aside == "left" %}
+                            {{ include('partials/_aside.twig') }}
+                        {% endif %}
+
+                        <div class="{% if theme.layout.aside not in ['left', 'right'] %}{% endif %} col-md-{{ main_width }} columns">
+
+                            {{ widgets('main_top') }}
+
+                            {% block main %}
+                            {% endblock main %}
+
+                            {{ widgets('main_bottom') }}
+
+                        </div>
+
+                        {% if theme.layout.aside == "right" %}
+                            {{ include('partials/_aside.twig') }}
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+        {% endblock body %}
+
+        {{ include('partials/_footer.twig') }}
+
+        {% block bottomincludes %}
+        {% endblock bottomincludes %}
+    </body>
+</html>

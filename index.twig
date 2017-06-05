@@ -1,0 +1,46 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+
+    <h1>{{ record.title }}</h1>
+
+    {{ record.teaser }}
+
+    {{ popup(record.image, 1200, 500) }}
+
+    {{ record.body }}
+
+    {{ include('partials/_recordfooter.twig', { 'record': record }) }}
+
+        <hr>
+        <h4>{{ __('contenttypes.entries.text.recent') }}</h4>
+
+        {# Here we use 'setcontent' to set the variable 'records' to "entries/latest/6",
+           which is shorthand for "the 6 latest records in Entries. Note that we are 
+           requesting multiple entries, so 'records' will be an array containing each
+           of the entries. That's why we use the 'for' loop to iterate over them all. #}
+        {% setcontent records = "entries/latest/6" allowpaging %}
+        {% for record in records %}
+            <article>
+
+                {% if record.image %}
+                    <a href="{{ record.image|thumbnail(1200, 800) }}" class="thumb pull-left" data-toggle="lightbox">
+                        <img src="{{ record.image|thumbnail(150, 100) }}" class="img-fluid img-thumbnail">
+                    </a>
+                {% endif %}
+
+                <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
+                <p class="datepublished"><i class="fa fa-calendar"></i> Geschrieben am: {{ record.datepublish|localedatetime('%d.%m.%Y') }}</p>
+                <p>{{ record.excerpt(220) }}</p>
+
+            </article>
+
+            <hr>
+
+        {% endfor %}
+
+        {{ pager() }}
+
+
+
+{% endblock main %}

@@ -1,0 +1,28 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+
+    <h1>{{ record.title }}</h1>
+
+    <p class="datepublished"><i class="fa fa-calendar"></i> Geschrieben am: {{ record.datepublish|localedatetime('%d.%m.%Y') }}</p>
+
+    {% if record.image %}
+        <a href="{{ record.image|thumbnail(1200, 800) }}" class="thumb pull-left" data-toggle="lightbox">
+            <img src="{{ record.image|thumbnail(150, 100) }}" class="img-fluid img-thumbnail">
+        </a>
+    {% endif %}
+
+    {# Output all fields, in the order as defined in the contenttype.
+       To change the generated html and configure the options, see:
+       https://docs.bolt.cm/templating/fields-tag #}
+    {{ fields(exclude = ['teaser', 'body', 'image']) }}
+    {{ record.teaser }}
+    {{ record.body }}
+
+    {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
+    {{ dump(record) }}
+    #}
+
+    {% include 'partials/_recordfooter.twig' with { 'record': record, 'extended': true } %}
+
+{% endblock main %}

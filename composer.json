@@ -1,0 +1,8 @@
+{
+    "require": {
+        "twbs/bootstrap": "^3.3",
+        "components/jquery": "^3.2",
+        "drmonty/ekko-lightbox": "^5.1",
+        "components/font-awesome": "^4.7"
+    }
+}
