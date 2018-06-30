@@ -11,7 +11,7 @@
     #}
 </p>
 
-{% if extended|default() %}
+{% if extended|default() and record.get(id) %}
     {% set previous = record.previous('id') %}
     {% set next = record.next('id') %}
     {% if previous or next %}

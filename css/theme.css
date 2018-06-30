@@ -191,7 +191,6 @@ section {
   padding: 50px 0;
 }
 section h2 {
-  margin: 0;
   font-size: 1.75em;
 }
 section.success {
@@ -204,6 +203,11 @@ section.success {
   }
   section.first {
     padding-top: 25px;
+  }
+
+  .image-small {
+    width: 100px !important;
+    height: auto !important;
   }
 }
 .floating-label-form-group {
